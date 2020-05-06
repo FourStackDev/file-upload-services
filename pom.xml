@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.fourstack</groupId>
-	<artifactId>database-file-upload</artifactId>
+	<artifactId>file-upload-services</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>database-file-upload</name>
+	<name>file-upload-services</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
