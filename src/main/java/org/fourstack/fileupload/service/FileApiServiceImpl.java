@@ -9,15 +9,18 @@ import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
 import org.fourstack.fileupload.entity.Document;
+import org.fourstack.fileupload.exceptionhandling.DatabaseConstraintViolationException;
 import org.fourstack.fileupload.exceptionhandling.FileStorageException;
 import org.fourstack.fileupload.exceptionhandling.ResourceFileNotFoundException;
 import org.fourstack.fileupload.property.FileStorageProperties;
 import org.fourstack.fileupload.repository.DocumentRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,6 +61,14 @@ public class FileApiServiceImpl implements FileApiService {
 
 			documentRepository.save(document);
 			logger.debug("File saved successfully..");
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseConstraintViolationException(e.getMessage(), e,
+					"Unique Constraint at database level has been violated. "
+					+ "Please check if the filename already exists and rename the file resource");
+		} catch (ConstraintViolationException e) {			
+			throw new DatabaseConstraintViolationException(e.getMessage(), e,
+					"Unique Constraint at database level has been violated. "
+					+ "Please check if the filename already exists and rename the file resource");
 		} catch (IOException e) {
 			logger.error("IOException occurred while uploading the file to database : " + fileName, e);
 		}
@@ -91,7 +102,7 @@ public class FileApiServiceImpl implements FileApiService {
 			return fileName;
 		} catch (IOException e) {
 			logger.error("Not able to create the File in the target location", e);
-			throw new FileStorageException("Could not store file", e);
+			throw new FileStorageException("Could not store file to target location :"+fileName, e);
 		}
 	}
 
