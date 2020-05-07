@@ -66,6 +66,10 @@ public class FileApiServiceImpl implements FileApiService {
 
 	@Override
 	public Document downloadFileFromDatabase(String fileName) {
+		if (fileName.contains("..")) {
+			throw new FileStorageException("Sorry, File name contains invalid path sequence");
+		}
+		
 		Optional<Document> optionalDocument = documentRepository.findByFileName(fileName);
 		Document document = optionalDocument.isPresent() ? optionalDocument.get() : null;
 		
@@ -93,6 +97,10 @@ public class FileApiServiceImpl implements FileApiService {
 
 	@Override
 	public Resource downloadFileFromLocalSystem(String fileName) {
+		if (fileName.contains("..")) {
+			throw new FileStorageException("Sorry, File name contains invalid path sequence");
+		}
+		
 		try {
 			Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
 			Resource resource = new UrlResource(filePath.toUri());
