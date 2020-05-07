@@ -58,6 +58,7 @@ public class FileApiServiceImpl implements FileApiService {
 			Document document = new Document();
 			document.setFileName(fileName);
 			document.setFileContent(file.getBytes());
+			document.setFileType(file.getContentType());
 
 			documentRepository.save(document);
 			logger.debug("File saved successfully..");

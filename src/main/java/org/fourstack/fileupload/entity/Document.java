@@ -34,6 +34,9 @@ public class Document implements Serializable {
 	@Lob
 	private byte[] fileContent;
 	
+	@Column(name = "file_type")
+	private String fileType;
+	
 	@CreationTimestamp
 	@Column(name = "created_date", nullable = false, updatable = false)
 	private LocalDateTime createdDate;
@@ -49,7 +52,7 @@ public class Document implements Serializable {
 	}
 
 	/**
-	 * Parameterized Constructor to initialize the Document Object
+	 * Parameterized Constructor to initialize the Document Object without file type
 	 * 
 	 * @param fileName
 	 * @param fileContent
@@ -57,6 +60,19 @@ public class Document implements Serializable {
 	public Document(String fileName, byte[] fileContent) {
 		this.fileName = fileName;
 		this.fileContent = fileContent;
+	}
+	
+	/**
+	 * Parameterized Constructor to initialize the Document Object with file type
+	 * 
+	 * @param fileName
+	 * @param fileContent
+	 * @param fileType
+	 */
+	public Document(String fileName, byte[] fileContent, String fileType) {
+		this.fileName = fileName;
+		this.fileContent = fileContent;
+		this.fileType = fileType;
 	}
 
 	public Long getId() {
@@ -81,5 +97,13 @@ public class Document implements Serializable {
 
 	public void setFileContent(byte[] fileContent) {
 		this.fileContent = fileContent;
+	}
+
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
 	}
 }
