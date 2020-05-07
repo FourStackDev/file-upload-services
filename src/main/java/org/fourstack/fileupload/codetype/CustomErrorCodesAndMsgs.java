@@ -49,5 +49,21 @@ public enum CustomErrorCodesAndMsgs {
 		public String toString() {
 			return "Unique Constraint Violation occurred. Please check.";
 		}
+	},
+	
+	@JsonProperty("FILEUPLOAD_400")
+	BAD_REQUEST_CODE {
+		@Override
+		public String toString() {
+			return "FILEUPLOAD_400";
+		}
+	},
+	
+	@JsonProperty("Http Bad Request. Please check.")
+	BAD_REQUEST_MSG {
+		@Override
+		public String toString() {
+			return "Http Bad Request. Please check.";
+		}
 	}
 }

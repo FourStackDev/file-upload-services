@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.fourstack.fileupload.config.FileUploadBasePath;
 import org.fourstack.fileupload.entity.Document;
+import org.fourstack.fileupload.exceptionhandling.HttpResponseStatusException;
 import org.fourstack.fileupload.payload.UploadFileResponse;
 import org.fourstack.fileupload.service.FileApiService;
 import org.slf4j.Logger;
@@ -39,13 +40,23 @@ public class FileApiController {
 	 * *****************************************************************************
 	 */
 	@PostMapping("/uploadFiles/db")
-	public ResponseEntity<UploadFileResponse> uploadFileToDB(@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<UploadFileResponse> uploadFileToDB(
+			@RequestParam(value = "file", required = false) MultipartFile file) {
+		/*
+		 * NOTE : if required value is not provided then its default value is true. At
+		 * that time if end user try to hit the endpoint without the file, then he will
+		 * get BAD_REQUEST, but actual reason will not be identified. 
+		 * Hence the below code is written to return BAD_REQUEST with proper reason
+		 */
+		if (file == null) {
+			throw new HttpResponseStatusException("Missing Request Body: @RequestParam is missing.");
+		}
+
 		String fileName = fileApiService.uploadFileToDatabase(file);
-		
+
 		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/file-uploads/api/files/downloadFiles/db/")
-				.path(fileName).toUriString();
-		
+				.path("/file-uploads/api/files/downloadFiles/db/").path(fileName).toUriString();
+
 		return new ResponseEntity<UploadFileResponse>(
 				new UploadFileResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize()),
 				HttpStatus.CREATED);
@@ -83,14 +94,23 @@ public class FileApiController {
 	 * @return
 	 */
 	@PostMapping("/uploadFiles/local")
-	public ResponseEntity<UploadFileResponse> uploadFileToLocalSystem(@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<UploadFileResponse> uploadFileToLocalSystem(
+			@RequestParam(value = "file", required = false) MultipartFile file) {
+		/*
+		 * NOTE : if required value is not provided then its default value is true. At
+		 * that time if end user try to hit the endpoint without the file, then he will
+		 * get BAD_REQUEST, but actual reason will not be identified. 
+		 * Hence the below code is written to return BAD_REQUEST with proper reason
+		 */
+		if (file == null) {
+			throw new HttpResponseStatusException("Missing Request Body: @RequestParam is missing.");
+		}
+		
 		String fileName = fileApiService.uploadFileToLocalFileSystem(file);
-		
+
 		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/file-uploads/api/files/downloadFiles/local/")
-				.path(fileName)
-				.toUriString();
-		
+				.path("/file-uploads/api/files/downloadFiles/local/").path(fileName).toUriString();
+
 		return new ResponseEntity<UploadFileResponse>(
 				new UploadFileResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize()),
 				HttpStatus.CREATED);
