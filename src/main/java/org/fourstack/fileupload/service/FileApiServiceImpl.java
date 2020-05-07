@@ -67,7 +67,11 @@ public class FileApiServiceImpl implements FileApiService {
 	@Override
 	public Document downloadFileFromDatabase(String fileName) {
 		Optional<Document> optionalDocument = documentRepository.findByFileName(fileName);
-		return optionalDocument.isPresent() ? optionalDocument.get() : null;
+		Document document = optionalDocument.isPresent() ? optionalDocument.get() : null;
+		
+		if (document == null)
+			throw new ResourceFileNotFoundException("Requested file not present in the database: "+fileName);
+		return document;
 	}
 
 	@Override
