@@ -27,11 +27,27 @@ public enum CustomErrorCodesAndMsgs {
 		}
 	},
 	
-	@JsonProperty("File name contains Invalid Characters. Please check")
+	@JsonProperty("File name contains Invalid Characters. Please check.")
 	INVALID_FILE_NAME_MSG {
 		@Override
 		public String toString() {
-			return "File name contains Invalid Characters. Please check";
+			return "File name contains Invalid Characters. Please check.";
+		}
+	},
+	
+	@JsonProperty("FILEUPLOAD_409")
+	UNIQUE_CONSTRAINT_CODE {
+		@Override
+		public String toString() {
+			return "FILEUPLOAD_409";
+		}
+	},
+	
+	@JsonProperty("Unique Constraint Violation occurred. Please check.")
+	UNIQUE_CONSTRAINT_MSG {
+		@Override
+		public String toString() {
+			return "Unique Constraint Violation occurred. Please check.";
 		}
 	}
 }
