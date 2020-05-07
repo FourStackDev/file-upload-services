@@ -1,6 +1,9 @@
 package org.fourstack.fileupload.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -62,6 +65,14 @@ public class FileApiController {
 				HttpStatus.CREATED);
 	}
 	
+	@PostMapping("/uploadMultipleFiles/db")
+	public List<ResponseEntity<UploadFileResponse>> uploadMultipleFilesToDB(@RequestParam(value = "files") MultipartFile[] files) {
+		return Arrays.asList(files)
+				.stream()
+				.map(file -> uploadFileToDB(file))
+				.collect(Collectors.toList());
+	}
+	
 	@GetMapping("/downloadFiles/db/{fileName:.+}")
 	public ResponseEntity<byte[]> downloadFileFromDB(@PathVariable String fileName) {
 		Document document = fileApiService.downloadFileFromDatabase(fileName);
@@ -116,6 +127,13 @@ public class FileApiController {
 				HttpStatus.CREATED);
 	}
 	
+	@PostMapping("/uploadMultipleFiles/local")
+	public List<ResponseEntity<UploadFileResponse>> uploadMultipleFilesToLocal(@RequestParam(value = "files") MultipartFile[] files) {
+		return Arrays.asList(files)
+				.stream()
+				.map(file -> uploadFileToLocalSystem(file))
+				.collect(Collectors.toList());
+	}
 	
 	@GetMapping("/downloadFiles/local/{fileName:.+}")
 	public ResponseEntity<Resource> downloadFileFromLocalSystem(@PathVariable String fileName, HttpServletRequest request) {
