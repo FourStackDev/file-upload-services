@@ -1,5 +1,12 @@
 package org.fourstack.fileupload.exceptionhandling;
 
+/**
+ * Class <b><i>ResourceFileNotFoundException</i></b> is a sub class of
+ * RuntimeException, which is used to handle custom exception in application
+ * 
+ * @author Manjunath_HM
+ *
+ */
 public class ResourceFileNotFoundException extends RuntimeException {
 
 	/**
