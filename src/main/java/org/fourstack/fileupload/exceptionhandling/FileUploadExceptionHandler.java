@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * Class <b><i>FileUploadExceptionHandler</i></b> is an ExceptionHandler class,
+ * which is used to handle the exceptions occurred in the application.
+ * 
+ * @author Manjunath_HM
+ *
+ */
 @ControllerAdvice
 public class FileUploadExceptionHandler extends ResponseEntityExceptionHandler {
 
