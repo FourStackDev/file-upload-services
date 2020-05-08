@@ -1,6 +1,6 @@
 package org.fourstack.fileupload.controller;
 
-import org.fourstack.fileupload.config.FileUploadBasePath;
+import org.fourstack.fileupload.annotations.FileUploadBasePath;
 import org.fourstack.fileupload.entity.AppInfo;
 import org.fourstack.fileupload.service.FileApiInfoService;
 import org.springframework.beans.factory.annotation.Autowired;

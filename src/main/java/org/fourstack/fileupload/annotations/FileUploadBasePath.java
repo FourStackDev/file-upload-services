@@ -1,4 +1,4 @@
-package org.fourstack.fileupload.config;
+package org.fourstack.fileupload.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.fourstack.fileupload.config.FileUploadBasePath;
+import org.fourstack.fileupload.annotations.FileUploadBasePath;
 import org.fourstack.fileupload.entity.Document;
 import org.fourstack.fileupload.exceptionhandling.HttpResponseStatusException;
 import org.fourstack.fileupload.payload.UploadFileResponse;
